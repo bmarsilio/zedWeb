@@ -14,9 +14,9 @@ class GerenciaAtendimento
     }
 
     /**
-     * Método destinado a listar todos os atendimentos que estão em aberto.
+     * Método destinado a listar todos os atendimentos do tipo normal que estão em aberto.
      */
-    public function buscaListaAtendimentos(){
+    public function buscaListaAtendimentosNormal(){
         $query = "
 				select
 					a.idAtendimento as idAtend,
@@ -32,6 +32,67 @@ class GerenciaAtendimento
 					LEFT JOIN zd_atendenteatendimento D ON (D.idAtendimento = A.idAtendimento)
 				where
 					idSituacaoAtendimento in (1,2)
+					and B.idTipoAtendimento = 1
+				order by
+					b.stDescricao,
+					a.idAtendimento asc
+		";
+        
+        $resultSet = $this->conexao->sql_query($query);
+        
+        return $resultSet;
+    }
+
+    /**
+     * Método destinado a listar todos os atendimentos do tipo preferencial que estão em aberto.
+     */
+    public function buscaListaAtendimentosPreferencial(){
+        $query = "
+				select
+					a.idAtendimento as idAtend,
+					a.dtSolicitacao as dtSolicita,
+					b.stDescricao as tipoAtendimento,
+					C.stDescricao as statusAtendimento,
+					D.idAtendente as idAtendente,
+					A.idSituacaoAtendimento as idSituacaoAtendimento
+				from
+					zd_atendimento a
+					inner join zd_tipoatendimento b on(b.idTipoAtendimento = a.idTipoAtendimento)
+					INNER JOIN zd_statusAtendimento C ON(C.idStatusAtendimento = A.idSituacaoAtendimento)
+					LEFT JOIN zd_atendenteatendimento D ON (D.idAtendimento = A.idAtendimento)
+				where
+					idSituacaoAtendimento in (1,2)
+					and B.idTipoAtendimento = 2
+				order by
+					b.stDescricao,
+					a.idAtendimento asc
+		";
+        
+        $resultSet = $this->conexao->sql_query($query);
+        
+        return $resultSet;
+    }
+
+    /**
+     * Método destinado a listar todos os atendimentos do tipo reatendimento que estão em aberto.
+     */
+    public function buscaListaAtendimentosReatendimento(){
+        $query = "
+				select
+					a.idAtendimento as idAtend,
+					a.dtSolicitacao as dtSolicita,
+					b.stDescricao as tipoAtendimento,
+					C.stDescricao as statusAtendimento,
+					D.idAtendente as idAtendente,
+					A.idSituacaoAtendimento as idSituacaoAtendimento
+				from
+					zd_atendimento a
+					inner join zd_tipoatendimento b on(b.idTipoAtendimento = a.idTipoAtendimento)
+					INNER JOIN zd_statusAtendimento C ON(C.idStatusAtendimento = A.idSituacaoAtendimento)
+					LEFT JOIN zd_atendenteatendimento D ON (D.idAtendimento = A.idAtendimento)
+				where
+					idSituacaoAtendimento in (1,2)
+					and B.idTipoAtendimento = 3
 				order by
 					b.stDescricao,
 					a.idAtendimento asc
