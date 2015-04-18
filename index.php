@@ -67,6 +67,7 @@
 	<script src="bootstrap/mask/js/jquery.maskedinput.js"></script>
 	<script src="bootstrap/dataTable/js/dataTables.bootstrap.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script> <!--iclui o js-->
+
 </body>    
 </html>
 
